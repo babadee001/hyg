@@ -21,6 +21,9 @@ app.get('/', (req, res) => {
     message: 'Welcome to Amirr API'
   })
 })
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.listen(port, () => {
   console.log(`server started at ${port}`);

@@ -4,20 +4,22 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js",
+    "start-server": "nodemon --exec babel-node app.js",
+    "start": "babel-node app.js",
     "client": "cd client && npm start",
-    "start-dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\"",
-    "create-tables": "babel-node ./database/tables.js"
+    "start-dev": "concurrently --kill-others-on-fail \"npm start-server\" \"npm run client\"",
+    "create-tables": "babel-node ./database/tables.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "bbd",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
