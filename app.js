@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(validator());
 app.use(UsersRouter);
-app.use(DataRouter);
+// app.use(DataRouter);
 
 
 app.get('/', (req, res) => {
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
+}
 
 app.listen(port, () => {
   console.log(`server started at ${port}`);

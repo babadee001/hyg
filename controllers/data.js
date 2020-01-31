@@ -1,7 +1,7 @@
 i
 import db from '../database/db';
 
-class Users {
+class Data {
   static postData (req, res) {
     return res.status(201).send({
         status: 201,
@@ -16,4 +16,4 @@ class Users {
     })
   }
 }
-export default Users;
+export default Data;
