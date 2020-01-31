@@ -1,5 +1,6 @@
 import express from 'express';
 import validator from 'express-validator';
+import path from 'path';
 
 import UsersRouter from "./routes/users";
 import DataRouter from "./routes/data";
