@@ -48,5 +48,17 @@ class Users {
         Token: token
     })
   }
+  
+  static resetPassword (req, res) {
+    const { email, newPassword } = req.body;
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    db.query('UPDATE users SET password = $1 WHERE email = $2', [hashedPassword, email], (error, result) => {
+        if (error) throw error;
+        return res.status(201).send({
+            status: 201,
+            message: "Password reset successful"
+        })
+    })
+  }
 }
 export default Users;

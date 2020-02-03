@@ -7,7 +7,7 @@
     "start-server": "nodemon --exec babel-node app.js",
     "start": "babel-node app.js",
     "client": "cd client && npm start",
-    "start-dev": "concurrently --kill-others-on-fail \"npm start-server\" \"npm run client\"",
+    "start-dev": "concurrently --kill-others-on-fail \"npm run start-server\" \"npm run client\"",
     "create-tables": "babel-node ./database/tables.js",
     "heroku-postbuild": "npm run create-tables && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
@@ -20,13 +20,25 @@
     "@babel/core": "^7.8.3",
     "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
+    "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
     "pg": "^7.18.1",
-    "pg-pool": "^2.0.9"
+    "pg-native": "^3.0.0",
+    "pg-pool": "^2.0.9",
+    "react-dom": "^16.12.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^3.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-toast-notifications": "^2.4.0",
+    "react-toastify": "^5.5.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "toastr": "^2.1.4"
   }
 }

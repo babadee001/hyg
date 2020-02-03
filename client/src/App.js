@@ -1,44 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Signup from './components/signup/signup';
+import Signin from './components/signin/signin';
+import Contact from './components/contact';
+import Reset from './components/resetPassword/index';
+import Navbar from './components/navbar';
+import Data from './components/data';
 
 class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.message }))
-      .catch(err => console.log(err));
-  }
-  
-  callApi = async () => {
-    const response = await fetch('/');
-    console.log(response)
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
+ 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.{this.state.response}
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <Router>
+          <div className="App">
+            <Navbar />
+              <Route exact path='/' component={Signup} />
+              <Route path='/signup' component={Signup} />
+              <Route path='/signin' component={Signin} />
+              <Route path='/contact' component={Contact} />
+              <Route path='/reset' component={Reset} />
+              <Route path='/data' component={Data} />
+        </div>
+        </Router>
     );
   }
 }

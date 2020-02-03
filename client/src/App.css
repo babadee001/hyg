@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+body {
+  background-color: #F3EBF6;
+  font-family: 'Ubuntu', sans-serif;
+  background-image: url('https://res.cloudinary.com/babadee30/image/upload/v1580670386/ami/download.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+}
+.col-centered {
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 6px;
+  border-radius: 10px;
+  display: inline-block;
+  float: none;
+  top: 246px;
+  color: white;
+}
+.homebtn {
+  color: white
+}
