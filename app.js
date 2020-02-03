@@ -16,12 +16,6 @@ app.use(UsersRouter);
 // app.use(DataRouter);
 
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: 'Welcome to Amirr API'
-  })
-})
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -30,6 +24,13 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 200,
+    message: 'Welcome to Amirr API'
+  })
+})
 
 app.listen(port, () => {
   console.log(`server started at ${port}`);
