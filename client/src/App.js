@@ -4,7 +4,7 @@ import Signup from './components/signup/signup';
 import Signin from './components/signin/signin';
 import Contact from './components/contact';
 import Reset from './components/resetPassword/index';
-import Navbar from './components/navbar';
+// import Navbar from './components/navbar';
 import Data from './components/data';
 
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
     return (
         <Router>
           <div className="App">
-            <Navbar />
+            {/* <Navbar /> */}
               <Route exact path='/' component={Signup} />
               <Route path='/signup' component={Signup} />
               <Route path='/signin' component={Signin} />

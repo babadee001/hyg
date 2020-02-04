@@ -1,9 +1,11 @@
 import React from 'react';
 import './style.scss';
+import Navbar from '../navbar';
 
 export default function About(){
     return (
       <div>
+        <Navbar />
         <div className="maincontact">
           <p className="sign" align="center">Write To Us</p>
           <form className="form1">

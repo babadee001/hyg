@@ -1,7 +1,7 @@
 import React from 'react';
 import toastr from 'toastr'
 import { Link, withRouter } from 'react-router-dom';
-// import '../signin/style.scss';
+import Navbar from '../../navbar';
 
 
 class SigninForm extends React.Component{
@@ -58,15 +58,18 @@ class SigninForm extends React.Component{
     }
     render() {
         return(
-            <div className="main">
-              <p className="sign" align="center">Signup</p>
-              <form className="form1" onSubmit={ this.onSubmit }>
-              <p className="errormessage">{this.state.errorMessage}</p>
-              <input className="un" type="email" align="center" placeholder="Email" name="email" value={this.state.email} onChange={ this.onChange } required></input>
-              <input className="pass" type="password" align="center" placeholder="Password" value={this.state.password} onChange={ this.onChange } name="password" required></input>
-              <button type="submit" className="submit" align="center">Sigin</button>
-              <p className="forgot" align="center">Forgot password?<Link to="/reset"> Reset</Link></p>
-              </form>
+            <div>
+                <Navbar link1='/signup' value1='Sign up' />
+                <div className="main">
+                <p className="sign" align="center">Signup</p>
+                <form className="form1" onSubmit={ this.onSubmit }>
+                <p className="errormessage">{this.state.errorMessage}</p>
+                <input className="un" type="email" align="center" placeholder="Email" name="email" value={this.state.email} onChange={ this.onChange } required></input>
+                <input className="pass" type="password" align="center" placeholder="Password" value={this.state.password} onChange={ this.onChange } name="password" required></input>
+                <button type="submit" className="submit" align="center">Sigin</button>
+                <p className="forgot" align="center">Forgot password?<Link to="/reset"> Reset</Link></p>
+                </form>
+                </div>
             </div>
         )
     }

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './style.scss';
-// import { Link } from 'react-router-dom';
-// import jwt from 'jsonwebtoken';
-// import { browserHistory } from 'react-router';
+import Navbar from '../navbar';
 
 export default class SignupForm extends Component {
 
@@ -30,6 +28,7 @@ export default class SignupForm extends Component {
   render() {
     return (
       <div>
+        <Navbar />
         <div className="spacing"></div>
         <table id="example" className="table table-striped table-bordered">
         <thead>

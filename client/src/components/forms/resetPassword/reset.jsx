@@ -1,7 +1,7 @@
 import React from 'react';
 import toastr from 'toastr'
 import { withRouter } from 'react-router-dom';
-// import './signup.scss';
+import Navbar from '../../navbar'
 
 
 class resetForm extends React.Component{
@@ -58,22 +58,25 @@ class resetForm extends React.Component{
     }
     render() {
         return(
-            <div className="main">
-              <p className="sign" align="center">Reset Password</p>
-              <form className="form1" onSubmit={ this.onSubmit }>
-              <p className="errormessage">{this.state.errorMessage}</p>
-              <input className="un" type="email" align="center" placeholder="Email" name="email" value={this.state.email} onChange={ this.onChange } required></input>
-              <select className="un" value={this.state.securityQuestion} onChange={ this.onChange } name="securityQuestion" required>
-                  <option align="center">Select your security question</option>
-                  <option>My first crush</option>
-                  <option>Name of my first Dog</option>
-                  <option>My mother's maiden name</option>
-                  <option>Street I grew up</option>
-              </select>
-              <input className="un" type="password" align="center" placeholder="Security Answer" value={this.state.securityAnswer} onChange={ this.onChange } name="securityAnswer" required></input>
-              <input className="pass" type="password" align="center" placeholder="New Password" value={this.state.newPassword} onChange={ this.onChange } name="newPassword" required></input>
-              <button type="submit" className="submit" align="center">Signup</button>
-              </form>
+            <div>
+                <Navbar link1='/signup' value1='Sign up' link2='/signin' value2='Sign in' />
+                    <div className="main">
+                    <p className="sign" align="center">Reset Password</p>
+                    <form className="form1" onSubmit={ this.onSubmit }>
+                    <p className="errormessage">{this.state.errorMessage}</p>
+                    <input className="un" type="email" align="center" placeholder="Email" name="email" value={this.state.email} onChange={ this.onChange } required></input>
+                    <select className="un" value={this.state.securityQuestion} onChange={ this.onChange } name="securityQuestion" required>
+                        <option align="center">Select your security question</option>
+                        <option>My first crush</option>
+                        <option>Name of my first Dog</option>
+                        <option>My mother's maiden name</option>
+                        <option>Street I grew up</option>
+                    </select>
+                    <input className="un" type="password" align="center" placeholder="Security Answer" value={this.state.securityAnswer} onChange={ this.onChange } name="securityAnswer" required></input>
+                    <input className="pass" type="password" align="center" placeholder="New Password" value={this.state.newPassword} onChange={ this.onChange } name="newPassword" required></input>
+                    <button type="submit" className="submit" align="center">Signup</button>
+                    </form>
+                    </div>
             </div>
         )
     }
