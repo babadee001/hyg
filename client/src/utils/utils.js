@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+import jwt from 'jsonwebtoken';
 
 class Utils {
     static async getData (){
@@ -40,29 +40,12 @@ class Utils {
           return jsonServerResponse;
     }
 
-    static async fireAlert() {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'This is not reversible',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it'
-          }).then((result) => {
-            if (result.value) {
-              Swal.fire(
-                'Deleted!',
-                'Data successfully deleted.',
-                'success'
-              )
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              Swal.fire(
-                'Cancelled',
-                'Data not deleted :)',
-                'error'
-              )
-            }
-          })
+    static async verifyToken(token) {
+      jwt.verify(token, process.env.secret, function(err, decoded) {
+        if (err){
+          return false
+        }
+      })
     }
 }
 export default Utils;

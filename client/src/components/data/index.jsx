@@ -50,6 +50,7 @@ export default class Data extends Component {
     this.setState({
       editId: id,
       successMessage: '',
+      errorMessage: '',
       firstData: firstData,
       secondData: secondData,
       lat: latitude,
@@ -118,8 +119,12 @@ export default class Data extends Component {
   onSubmit = async event => {
     event.preventDefault();
     const decoded = jwt.decode(localStorage.getItem('token'));
-    const username = decoded.currentUser.email;
-    const { firstData, secondData, lat, long } = this.state
+    if (!decoded){
+      this.setState({errorMessage: 'Please login'})
+    }
+    else{
+      const username = decoded.currentUser.email;
+      const { firstData, secondData, lat, long } = this.state
     const latitude = Number(lat)
     const longitude = Number(long)
     const response = await fetch('/data', {
@@ -163,54 +168,63 @@ export default class Data extends Component {
           errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
       })
     }
+    }
   }
 
   onhandleEdit = async (event, id) => {
     event.preventDefault();
-    const { firstData, secondData, lat, long } = this.state
-    const latitude = Number(lat)
-    const longitude = Number(long)
-    const response = await fetch(`/data/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstData, secondData, latitude, longitude
-      }),
-    }).catch((error) => {
-      if (error.response) {
-          this.setState({
-              errorMessage: error.response.data.message
-          })
-      } else {
-        throw error;
+    utils.verifyToken(localStorage.getItem('token'))
+    .then((verified) =>{
+      if (!verified){
+        this.setState({errorMessage: "Please Login"})
       }
-    });
-    const jsonServerResponse = await response.json()
-            .then(jsonData => jsonData);
-    if (jsonServerResponse.status === 201) {
-      utils.getData()
-        .then((jsonServerResponse) => {
-          // eslint-disable-next-line
-          if (jsonServerResponse.status == 200) {
-            this.setState({
-              allData: jsonServerResponse.data
-            })
+      else{
+        const { firstData, secondData, lat, long } = this.state
+        const latitude = Number(lat)
+        const longitude = Number(long)
+        const response = fetch(`/data/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstData, secondData, latitude, longitude
+          }),
+        }).catch((error) => {
+          if (error.response) {
+              this.setState({
+                  errorMessage: error.response.data.message
+              })
           } else {
-            toastr.info('Could not load data. Connection may be slow')
+            throw error;
           }
-        })
-      toastr.info(jsonServerResponse.message)
-      this.setState({
-        errorMessage: '',
-        successMessage: 'Data edited successfully. Close the form or edit again'
-      })
-    } else {
-      this.setState({
-          errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
-      })
-    }
+        });
+        const jsonServerResponse = response.json()
+                .then(jsonData => jsonData);
+        if (jsonServerResponse.status === 201) {
+          utils.getData()
+            .then((jsonServerResponse) => {
+              // eslint-disable-next-line
+              if (jsonServerResponse.status == 200) {
+                this.setState({
+                  allData: jsonServerResponse.data
+                })
+              } else {
+                toastr.info('Could not load data. Connection may be slow')
+              }
+            })
+          toastr.info(jsonServerResponse.message)
+          this.setState({
+            errorMessage: '',
+            successMessage: 'Data edited successfully. Close the form or edit again'
+          })
+        } else {
+          this.setState({
+              errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
+          })
+        }
+      }
+    })
   }
 
   render() {
