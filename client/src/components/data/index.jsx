@@ -90,7 +90,12 @@ export default class Data extends Component {
              <td>{seconddata}</td>
              <td>{latitude}</td>
              <td>{longitude}</td>
-             <td><button onFocus={() => this.setEditId(id, firstdata, seconddata, latitude, longitude)} className="btn-success addbtn" data-toggle="modal" data-target="#editModal">Edit</button><button onClick={() => this.deleteData(id)} className="btn-danger">Delete</button></td>
+             <td>
+             <div className="btn-group group">
+              <button align="center" onFocus={() => this.setEditId(id, firstdata, seconddata, latitude, longitude)} className="btn-success" data-toggle="modal" data-target="#editModal">Edit</button>
+              <button align="center" onClick={() => this.deleteData(id)} className="btn-danger deletebtn">Delete</button>
+            </div>
+             </td>
           </tr>
        )
     })
@@ -266,8 +271,8 @@ export default class Data extends Component {
         <div className='data-title'>Data Table</div>
         <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success addbtn">Add new</button>
         <div className='search'>
-          <input placeholder="Filter by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
-          <button onClick={this.search}>Search</button>
+          <input className="inputSearch" placeholder="Filter by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
+          <button className="buttonSearch" onClick={this.search}>Search</button>
         </div>
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">

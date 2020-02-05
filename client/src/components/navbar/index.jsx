@@ -8,7 +8,8 @@ export default class Navbar extends React.Component {
     render() {
         return (
             <div>
-              <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed">
+                  <div className="container">
                   <Link className="navbar-brand" to="/">Amir</Link>
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
@@ -28,6 +29,7 @@ export default class Navbar extends React.Component {
                           <Link className="nav-link" to={this.props.link2}>{this.props.value2}</Link>
                       </li>
                       </ul>
+                  </div>
                   </div>
                   </nav>
             </div>
