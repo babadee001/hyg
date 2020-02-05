@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SigninForm from '../forms/signin/signin';
-// import './signin.scss';
+import './signin.scss';
 
 export default class Signup extends Component {
 

@@ -24,8 +24,8 @@ class Data {
   }
 
   static editData (req, res) {
-    const { firstData, secondData, latitude, longitude, username } = req.body;
-    db.query('UPDATE data SET firstData = $1, secondData = $2, latitude = $3, longitude = $4 WHERE username = $5', [firstData, secondData, latitude, longitude, username], (error, result) => {
+    const { firstData, secondData, latitude, longitude } = req.dataEdit;
+    db.query('UPDATE data SET firstData = $1, secondData = $2, latitude = $3, longitude = $4 WHERE id = $5', [firstData, secondData, latitude, longitude, req.params.id], (error, result) => {
       if (error) throw error;
       return res.status(201).send({
           status: 201,

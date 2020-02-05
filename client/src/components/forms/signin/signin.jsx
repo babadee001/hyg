@@ -24,7 +24,6 @@ class SigninForm extends React.Component{
     onSubmit = async event => {
         event.preventDefault();
         const { password, email } = this.state
-        console.log(password, email)
         const response = await fetch('/signin', {
             method: 'POST',
             headers: {
@@ -54,13 +53,12 @@ class SigninForm extends React.Component{
                     errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
                 })
               }
-              console.log(jsonServerResponse)
     }
     render() {
         return(
             <div>
                 <Navbar link1='/signup' value1='Sign up' />
-                <div className="main">
+                <div className="mainsignin">
                 <p className="sign" align="center">Signin</p>
                 <form className="form1" onSubmit={ this.onSubmit }>
                 <p className="errormessage">{this.state.errorMessage}</p>

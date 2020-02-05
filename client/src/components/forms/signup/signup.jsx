@@ -28,7 +28,6 @@ class SignupForm extends React.Component{
     onSubmit = async event => {
         event.preventDefault();
         const { username, securityAnswer, password, securityQuestion, email } = this.state
-        console.log(username, securityAnswer, password, securityQuestion, email)
         const response = await fetch('/signup', {
             method: 'POST',
             headers: {
@@ -58,7 +57,6 @@ class SignupForm extends React.Component{
                     errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
                 })
               }
-              console.log(jsonServerResponse)
         // this.props.userSignupRequest(this.state)
     }
     render() {

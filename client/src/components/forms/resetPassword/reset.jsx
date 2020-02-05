@@ -2,6 +2,7 @@ import React from 'react';
 import toastr from 'toastr'
 import { withRouter } from 'react-router-dom';
 import Navbar from '../../navbar'
+import './style.scss'
 
 
 class resetForm extends React.Component{
@@ -26,7 +27,6 @@ class resetForm extends React.Component{
     onSubmit = async event => {
         event.preventDefault();
         const { securityAnswer, newPassword, securityQuestion, email } = this.state
-        console.log(securityAnswer, newPassword, securityQuestion, email)
         const response = await fetch('/reset', {
             method: 'PUT',
             headers: {
@@ -54,13 +54,12 @@ class resetForm extends React.Component{
                     errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
                 })
               }
-              console.log(jsonServerResponse)
     }
     render() {
         return(
             <div>
                 <Navbar link1='/signup' value1='Sign up' link2='/signin' value2='Sign in' />
-                    <div className="main">
+                    <div className="mainreset">
                     <p className="sign" align="center">Reset Password</p>
                     <form className="form1" onSubmit={ this.onSubmit }>
                     <p className="errormessage">{this.state.errorMessage}</p>

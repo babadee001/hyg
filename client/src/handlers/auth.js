@@ -25,14 +25,6 @@ const userSignupRequest = userData => async () => {
     if (serverResponse.status === 201) {
       localStorage.setItem('token', jsonServerResponse.Token);
       browserHistory.push('/dashboard');
-      // setAuthorizationToken(jsonServerResponse.Token);
-      // const decoded = jwt.decode(jsonServerResponse.Token);
-        // Materialize.toast('Signed up Successfully', 1000,
-        //   'teal',
-        //   () => {
-        //     browserHistory.push('/dashboard');
-        //   }
-        // );
     } else {
       return serverResponse.message
     }

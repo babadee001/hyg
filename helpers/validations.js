@@ -211,50 +211,46 @@ export default {
           next()
         },
         validateDataEdit(req, res, next){
-        req.checkBody(
-          {
-            firstData: {
-              isNumeric: true,
-              errorMessage: 'Provide valid data and it must be numeric.',
-            },
-            secondData: {
-              isNumeric: true,
-              errorMessage: 'Provide valid data and it must be numeric.',
-            },
-            latitude: {
-              isDecimal: true,
-              errorMessage: 'Provide valid latitude. Should be decimal',
-            },
-            longitude: {
-              isDecimal: true,
-              errorMessage: 'Provide valid longitude. Should be decimal',
+          if (isNaN(req.params.id) || (req.params.id % 1) != 0){
+            return res.status(401).send({
+              status: 401,
+              message: "Invalid ID"
+          })}
+          pool.query('SELECT * FROM data WHERE id = $1 ', [req.params.id], (error, results) => {
+            if (error) {
+              throw error;
             }
-          });
-          const errors = req.validationErrors();
-          if (errors) {
-            const allErrors = [];
-            errors.forEach((error) => {
-              const errorMessage = error.msg;
-              allErrors.push(errorMessage);
-            });
-            return res.status(400)
-              .json({
-                message: allErrors[0],
-              });
-          }
-          const toEdit = {}
-          
-          next()
+            if (results.rows[0] && results.rows[0].id){
+              req.dataEdit = {
+                longitude: req.body.longitude || results.rows[0].longitude,
+                latitude: req.body.latitude || results.rows[0].latitude,
+                firstData: req.body.firstData || results.rows[0].firstdata,
+                secondData: req.body.secondData || results.rows[0].seconddata,
+              }
+              if (isNaN(req.dataEdit.firstData) || isNaN(req.dataEdit.secondData) || isNaN(req.dataEdit.latitude) || isNaN(req.dataEdit.longitude)){
+                return res.status(401).send({
+                  status: 401,
+                  message: "Invalid input field. Expecting decimal."
+                })
+              }
+              next();
+            }
+            else {
+              return res.status(401).send({
+                status: 401,
+                message: "Invalid ID."
+              })
+            }
+          })
         },
 
         validateDataDelete(req, res, next){
-          if (isNaN(req.params.id)){
+          if (isNaN(req.params.id) || (req.params.id % 1) != 0){
             return res.status(401).send({
               status: 401,
               message: "Invalid ID"
           })}
           pool.query('SELECT id FROM data WHERE id = $1 ', [req.params.id], (error, results) => {
-            console.log(results.rows[0])
             if (error) {
               throw error;
             }

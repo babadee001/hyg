@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import toastr from 'toastr';
-import Swal from 'sweetalert2'
 import jwt from 'jsonwebtoken';
 import './style.scss';
 import utils from '../../utils/utils';
@@ -20,7 +19,8 @@ export default class Data extends Component {
       allData: '',
       dataReady: false,
       filteredData: '',
-      searchQuery: ''
+      searchQuery: '',
+      editId: ''
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -28,19 +28,31 @@ export default class Data extends Component {
     this.renderTableData = this.renderTableData.bind(this);
     this.deleteData = this.deleteData.bind(this);
     this.search = this.search.bind(this);
+    this.setEditId = this.setEditId.bind(this);
   }
 
-  componentWillMount(){
+  componentDidMount(){
     utils.getData()
     .then((jsonServerResponse) => {
+      // eslint-disable-next-line
       if (jsonServerResponse.status == 200) {
         this.setState({
           allData: jsonServerResponse.data
         })
-        console.log(this.state)
       } else {
         toastr.info('Could not load data. Connection may be slow')
       }
+    })
+  }
+
+  setEditId(id){
+    this.setState({
+      editId: id,
+      successMessage: '',
+      firstData: '',
+      secondData: '',
+      lat: '',
+      long: '',
     })
   }
 
@@ -66,7 +78,7 @@ export default class Data extends Component {
              <td>{seconddata}</td>
              <td>{latitude}</td>
              <td>{longitude}</td>
-             <td><button className="btn-success addbtn" data-toggle="modal" data-target="#editModal">Edit</button><button onClick={() => this.deleteData(id)} className="btn-danger">Delete</button></td>
+             <td><button onFocus={() => this.setEditId(id)} className="btn-success addbtn" data-toggle="modal" data-target="#editModal">Edit</button><button onClick={() => this.deleteData(id)} className="btn-danger">Delete</button></td>
           </tr>
        )
     })
@@ -75,23 +87,21 @@ export default class Data extends Component {
  deleteData(id) {
    utils.deleteData(id)
    .then((jsonServerResponse) => {
+     // eslint-disable-next-line
     if (jsonServerResponse.status == 200) {
       toastr.info('Deleted')
-      console.log(this.state)
     } else {
       toastr.info('Could not load data. Connection may be slow')
     }
   })
   let copyArray = this.state.allData;
   const index = copyArray.findIndex(x => x.id === id);
-  console.log(index)
   copyArray.splice(index, 1);
   this.setState({ allData: copyArray });
  }
 
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(this.state)
   }
 
   onSubmit = async event => {
@@ -121,6 +131,17 @@ export default class Data extends Component {
     const jsonServerResponse = await response.json()
             .then(jsonData => jsonData);
     if (jsonServerResponse.status === 201) {
+      utils.getData()
+        .then((jsonServerResponse) => {
+          // eslint-disable-next-line
+          if (jsonServerResponse.status == 200) {
+            this.setState({
+              allData: jsonServerResponse.data
+            })
+          } else {
+            toastr.info('Could not load data. Connection may be slow')
+          }
+        })
       toastr.info(jsonServerResponse.message)
       this.setState({
         errorMessage: '',
@@ -133,13 +154,12 @@ export default class Data extends Component {
     }
   }
 
-  onhandleEdit = async event => {
+  onhandleEdit = async (event, id) => {
     event.preventDefault();
-    console.log('edit')
     const { firstData, secondData, lat, long } = this.state
     const latitude = Number(lat)
     const longitude = Number(long)
-    const response = await fetch('/data', {
+    const response = await fetch(`/data/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -159,6 +179,17 @@ export default class Data extends Component {
     const jsonServerResponse = await response.json()
             .then(jsonData => jsonData);
     if (jsonServerResponse.status === 201) {
+      utils.getData()
+        .then((jsonServerResponse) => {
+          // eslint-disable-next-line
+          if (jsonServerResponse.status == 200) {
+            this.setState({
+              allData: jsonServerResponse.data
+            })
+          } else {
+            toastr.info('Could not load data. Connection may be slow')
+          }
+        })
       toastr.info(jsonServerResponse.message)
       this.setState({
         errorMessage: '',
@@ -174,7 +205,34 @@ export default class Data extends Component {
   render() {
     const allData = this.state.allData;
     if (!allData) {
-      return "No data"
+      return (
+        <div>
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-secondary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-light" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-dark" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      )
     }
     return (
       <div>
@@ -183,7 +241,7 @@ export default class Data extends Component {
         <div className='data-title'>Data Table</div>
         <button data-toggle="modal" data-target="#exampleModal" className="btn btn-success addbtn">Add new</button>
         <div className='search'>
-          <input name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
+          <input placeholder="Filter by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
           <button onClick={this.search}>Search</button>
         </div>
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -234,24 +292,24 @@ export default class Data extends Component {
                 </button>
               </div>
               <div className="modal-body">
-              <form onSubmit={this.onhandleEdit}>
+              <form onSubmit={(event) => { this.onhandleEdit(event, this.state.editId) }}>
               <p className="errormessage">{this.state.errorMessage}</p>
               <p className="successMessage">{this.state.successMessage}</p>
                 <div className="form-group">
                   <label className="col-form-label">firstData:</label>
-                  <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange } required></input>
+                  <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange }></input>
                 </div>
                 <div className="form-group">
                   <label className="col-form-label">secondData:</label>
-                  <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange } required></input>
+                  <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange }></input>
                 </div>
                 <div className="form-group">
                   <label className="col-form-label">Latitude:</label>
-                  <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange } required></input>
+                  <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange }></input>
                 </div>
                 <div className="form-group">
                   <label className="col-form-label">Longitude:</label>
-                  <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange } required></input>
+                  <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange }></input>
                 </div>
                 <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
