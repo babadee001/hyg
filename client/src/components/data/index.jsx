@@ -29,6 +29,7 @@ export default class Data extends Component {
     this.deleteData = this.deleteData.bind(this);
     this.search = this.search.bind(this);
     this.setEditId = this.setEditId.bind(this);
+    this.clearFields = this.clearFields.bind(this);
   }
 
   componentDidMount(){
@@ -45,9 +46,19 @@ export default class Data extends Component {
     })
   }
 
-  setEditId(id){
+  setEditId(id, firstData, secondData, latitude, longitude){
     this.setState({
       editId: id,
+      successMessage: '',
+      firstData: firstData,
+      secondData: secondData,
+      lat: latitude,
+      long: longitude,
+    })
+  }
+
+  clearFields(){
+    this.setState({
       successMessage: '',
       firstData: '',
       secondData: '',
@@ -78,7 +89,7 @@ export default class Data extends Component {
              <td>{seconddata}</td>
              <td>{latitude}</td>
              <td>{longitude}</td>
-             <td><button onFocus={() => this.setEditId(id)} className="btn-success addbtn" data-toggle="modal" data-target="#editModal">Edit</button><button onClick={() => this.deleteData(id)} className="btn-danger">Delete</button></td>
+             <td><button onFocus={() => this.setEditId(id, firstdata, seconddata, latitude, longitude)} className="btn-success addbtn" data-toggle="modal" data-target="#editModal">Edit</button><button onClick={() => this.deleteData(id)} className="btn-danger">Delete</button></td>
           </tr>
        )
     })
@@ -239,7 +250,7 @@ export default class Data extends Component {
         <Navbar />
         <div className="spacing"></div>
         <div className='data-title'>Data Table</div>
-        <button data-toggle="modal" data-target="#exampleModal" className="btn btn-success addbtn">Add new</button>
+        <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success addbtn">Add new</button>
         <div className='search'>
           <input placeholder="Filter by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
           <button onClick={this.search}>Search</button>

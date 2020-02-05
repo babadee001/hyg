@@ -48,7 +48,7 @@ class resetForm extends React.Component{
             .then(jsonData => jsonData);
             if (jsonServerResponse.status === 201) {
                 toastr.info(jsonServerResponse.message)
-                this.props.history.push('/data')
+                this.props.history.push('/signin')
               } else {
                 this.setState({
                     errorMessage: jsonServerResponse.message.message || jsonServerResponse.message

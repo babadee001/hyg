@@ -18,7 +18,7 @@ class App extends Component {
               <Route path='/signin' component={Signin} />
               <Route path='/contact' component={Contact} />
               <Route path='/reset' component={Reset} />
-              <Route path='/data' component={Data} />
+              <Route path='/dashboard' component={Data} />
               
         </div>
         </Router>

@@ -46,7 +46,7 @@ class SigninForm extends React.Component{
             if (jsonServerResponse.Token) {
                 localStorage.setItem('token', jsonServerResponse.Token);
                 toastr.info(jsonServerResponse.message)
-                this.props.history.push('/data')
+                this.props.history.push('/dashboard')
                 // const decoded = jwt.decode(jsonServerResponse.Token);
               } else {
                 this.setState({
