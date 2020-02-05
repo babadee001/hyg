@@ -61,7 +61,7 @@ class SigninForm extends React.Component{
             <div>
                 <Navbar link1='/signup' value1='Sign up' />
                 <div className="main">
-                <p className="sign" align="center">Signup</p>
+                <p className="sign" align="center">Signin</p>
                 <form className="form1" onSubmit={ this.onSubmit }>
                 <p className="errormessage">{this.state.errorMessage}</p>
                 <input className="un" type="email" align="center" placeholder="Email" name="email" value={this.state.email} onChange={ this.onChange } required></input>

@@ -128,11 +128,6 @@ export default {
             isAlphanumeric: false,
             errorMessage: 'Make sure you have provided a valid email',
           },
-          // password: {
-          //   notEmpty: true,
-          //   isAlphanumeric: false,
-          //   errorMessage: 'Make sure your old password is valid',
-          // },
           newPassword: {
             notEmpty: true,
             isAlphanumeric: false,
@@ -160,12 +155,6 @@ export default {
           if (error) {
             throw error;
           }
-          // if (bcrypt.compareSync(req.body.newPassword, results.rows[0].password)){
-          //   return res.status(409).send({
-          //     status: 409,
-          //     message: 'Old and new password thesame'
-          //   })
-          // }
           if (results.rows[0] && bcrypt.compareSync(req.body.securityAnswer, results.rows[0].answer)){
             next()
           }
@@ -176,5 +165,108 @@ export default {
             })
           }
         })
-      }
+      },
+
+      validateData(req, res, next){
+        req.checkBody(
+          {
+            username: {
+              notEmpty: true,
+              isAlphanumeric: false,
+              errorMessage: 'Make sure you have provided a valid username',
+            },
+            firstData: {
+              notEmpty: true,
+              isNumeric: true,
+              errorMessage: 'Provide valid data and it must be numeric.',
+            },
+            secondData: {
+              notEmpty: true,
+              isNumeric: true,
+              errorMessage: 'Provide valid data and it must be numeric.',
+            },
+            latitude: {
+              notEmpty: true,
+              isDecimal: true,
+              errorMessage: 'Provide valid latitude. Should be decimal',
+            },
+            longitude: {
+              notEmpty: true,
+              isDecimal: true,
+              errorMessage: 'Provide valid longitude. Should be decimal',
+            }
+          });
+          const errors = req.validationErrors();
+          if (errors) {
+            const allErrors = [];
+            errors.forEach((error) => {
+              const errorMessage = error.msg;
+              allErrors.push(errorMessage);
+            });
+            return res.status(400)
+              .json({
+                message: allErrors[0],
+              });
+          }
+          next()
+        },
+        validateDataEdit(req, res, next){
+        req.checkBody(
+          {
+            firstData: {
+              isNumeric: true,
+              errorMessage: 'Provide valid data and it must be numeric.',
+            },
+            secondData: {
+              isNumeric: true,
+              errorMessage: 'Provide valid data and it must be numeric.',
+            },
+            latitude: {
+              isDecimal: true,
+              errorMessage: 'Provide valid latitude. Should be decimal',
+            },
+            longitude: {
+              isDecimal: true,
+              errorMessage: 'Provide valid longitude. Should be decimal',
+            }
+          });
+          const errors = req.validationErrors();
+          if (errors) {
+            const allErrors = [];
+            errors.forEach((error) => {
+              const errorMessage = error.msg;
+              allErrors.push(errorMessage);
+            });
+            return res.status(400)
+              .json({
+                message: allErrors[0],
+              });
+          }
+          const toEdit = {}
+          
+          next()
+        },
+
+        validateDataDelete(req, res, next){
+          if (isNaN(req.params.id)){
+            return res.status(401).send({
+              status: 401,
+              message: "Invalid ID"
+          })}
+          pool.query('SELECT id FROM data WHERE id = $1 ', [req.params.id], (error, results) => {
+            console.log(results.rows[0])
+            if (error) {
+              throw error;
+            }
+            if (results.rows[0] && results.rows[0].id){
+              next()
+            }
+            else {
+              return res.status(401).send({
+                status: 401,
+                message: "Invalid ID."
+              })
+            }
+          })
+          }
 }

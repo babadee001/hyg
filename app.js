@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(validator());
 app.use(UsersRouter);
-// app.use(DataRouter);
+app.use(DataRouter);
 
 
 if (process.env.NODE_ENV === 'production') {
