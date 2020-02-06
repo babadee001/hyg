@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import './style.scss';
 import utils from '../../utils/utils';
 import Navbar from '../navbar';
+// import { BrowserRouter } from 'react-router-dom';
 
 export default class Data extends Component {
 
@@ -234,6 +235,7 @@ export default class Data extends Component {
 
   render() {
     const allData = this.state.allData;
+    // eslint-disable-next-line
     if (allData.length == 0) {
       return (
         <div>
@@ -265,123 +267,123 @@ export default class Data extends Component {
         </div>
       )
     }
-    return (
-      <div>
-        <Navbar />
-        <div className="container">
-        <div className="head-group">
-          <div className="spacing"></div>
-          <div class="data-title"><p className="text-center">Data Table</p></div>
-          <p className="text-center">
-          <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success">Add new</button>
-          </p>
-          <div className="row">
-            <div className="col-md-2"></div>
-            <div className="input-group col-md-8">
-                <input className="form-control" placeholder="search by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
-                <div className="input-group-append">
-                  <button type="button" className="btn btn-secondary" onClick={this.search}><i className="fa fa-search"></i></button>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Add New Data</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-              <form onSubmit={this.onSubmit}>
-              <p className="errormessage">{this.state.errorMessage}</p>
-              <p className="successMessage">{this.state.successMessage}</p>
-                <div className="form-group">
-                  <label className="col-form-label">firstData:</label>
-                  <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange } required></input>
-                </div>
-                <div className="form-group">
-                  <label className="col-form-label">secondData:</label>
-                  <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange } required></input>
-                </div>
-                <div className="form-group">
-                  <label className="col-form-label">Latitude:</label>
-                  <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange } required></input>
-                </div>
-                <div className="form-group">
-                  <label className="col-form-label">Longitude:</label>
-                  <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange } required></input>
-                </div>
-                <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">CLose</button>
-                <button type="submit" className="btn btn-primary">Add</button>
-              </div>
-              </form>
+      return (
+        <div>
+          <Navbar link1="/" value1="Logout" />
+          <div className="container">
+          <div className="head-group">
+            <div className="spacing"></div>
+            <div className="data-title"><p className="text-center">Data Table</p></div>
+            <p className="text-center">
+            <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success">Add new</button>
+            </p>
+            <div className="row">
+              <div className="col-md-2"></div>
+              <div className="input-group col-md-8">
+                  <input className="form-control" placeholder="search by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
+                  <div className="input-group-append">
+                    <button type="button" className="btn btn-secondary" onClick={this.search}><i className="fa fa-search"></i></button>
+                  </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editModal">Edit Data</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-              <form onSubmit={(event) => { this.onhandleEdit(event, this.state.editId) }}>
-              <p className="errormessage">{this.state.errorMessage}</p>
-              <p className="successMessage">{this.state.successMessage}</p>
-                <div className="form-group">
-                  <label className="col-form-label">firstData:</label>
-                  <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange }></input>
+          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">Add New Data</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-                <div className="form-group">
-                  <label className="col-form-label">secondData:</label>
-                  <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange }></input>
+                <div className="modal-body">
+                <form onSubmit={this.onSubmit}>
+                <p className="errormessage">{this.state.errorMessage}</p>
+                <p className="successMessage">{this.state.successMessage}</p>
+                  <div className="form-group">
+                    <label className="col-form-label">firstData:</label>
+                    <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange } required></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">secondData:</label>
+                    <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange } required></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">Latitude:</label>
+                    <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange } required></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">Longitude:</label>
+                    <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange } required></input>
+                  </div>
+                  <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">CLose</button>
+                  <button type="submit" className="btn btn-primary">Add</button>
                 </div>
-                <div className="form-group">
-                  <label className="col-form-label">Latitude:</label>
-                  <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange }></input>
+                </form>
                 </div>
-                <div className="form-group">
-                  <label className="col-form-label">Longitude:</label>
-                  <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange }></input>
-                </div>
-                <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-primary">Edit</button>
-              </div>
-              </form>
               </div>
             </div>
           </div>
+          <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="editModal">Edit Data</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                <form onSubmit={(event) => { this.onhandleEdit(event, this.state.editId) }}>
+                <p className="errormessage">{this.state.errorMessage}</p>
+                <p className="successMessage">{this.state.successMessage}</p>
+                  <div className="form-group">
+                    <label className="col-form-label">firstData:</label>
+                    <input name="firstData" type="text" className="form-control" value={this.state.firstData} onChange={ this.onChange }></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">secondData:</label>
+                    <input name="secondData" type="text" className="form-control" value={this.state.secondData} onChange={ this.onChange }></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">Latitude:</label>
+                    <input name="lat" type="text" className="form-control" value={this.state.lat} onChange={ this.onChange }></input>
+                  </div>
+                  <div className="form-group">
+                    <label className="col-form-label">Longitude:</label>
+                    <input name="long" type="text" className="form-control" value={this.state.long} onChange={ this.onChange }></input>
+                  </div>
+                  <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" className="btn btn-primary">Edit</button>
+                </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="table-responsive">
+          <table id="data" className="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th>id</th>
+                  <th>Username</th>
+                  <th>Data1</th>
+                  <th>Data2</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+                {this.renderTableData()}
+          </tbody>
+  
+      </table>
+          </div>
         </div>
-        <div className="table-responsive">
-        <table id="data" className="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>Username</th>
-                <th>Data1</th>
-                <th>Data2</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-              {this.renderTableData()}
-        </tbody>
-
-    </table>
         </div>
-      </div>
-      </div>
-  )
-}
+    )
+  }
 }

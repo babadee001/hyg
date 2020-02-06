@@ -41,6 +41,9 @@ class Utils {
     }
 
     static async verifyToken(token) {
+      if (!token){
+        return false;
+      }
       jwt.verify(token, process.env.secret, function(err, decoded) {
         if (err){
           return false

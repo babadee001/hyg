@@ -5,7 +5,7 @@ import './signin.scss';
 export default class Signup extends Component {
 
   render() {
-    // const { userSignupRequest } = this.props
+    localStorage.removeItem('token');
     return (
       <div>
        <SigninForm
