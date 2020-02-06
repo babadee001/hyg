@@ -234,45 +234,56 @@ export default class Data extends Component {
 
   render() {
     const allData = this.state.allData;
-    if (!allData) {
+    if (allData.length == 0) {
       return (
         <div>
           <div className="spinner-grow text-primary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-secondary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-light" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-secondary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-success" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-danger" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-warning" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-info" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-light" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-dark" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+
         </div>
       )
     }
     return (
       <div>
         <Navbar />
-        <div className="spacing"></div>
-        <div className='data-title'>Data Table</div>
-        <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success addbtn">Add new</button>
-        <div className='search'>
-          <input className="inputSearch" placeholder="Filter by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
-          <button className="buttonSearch" onClick={this.search}>Search</button>
+        <div className="container">
+        <div className="head-group">
+          <div className="spacing"></div>
+          <div class="data-title"><p className="text-center">Data Table</p></div>
+          <p className="text-center">
+          <button onFocus={this.clearFields} data-toggle="modal" data-target="#exampleModal" className="btn btn-success">Add new</button>
+          </p>
+          <div className="row">
+            <div className="col-md-2"></div>
+            <div className="input-group col-md-8">
+                <input className="form-control" placeholder="search by username"  name="searchQuery" onChange={this.onChange} value={this.state.searchQuery}></input>
+                <div className="input-group-append">
+                  <button type="button" className="btn btn-secondary" onClick={this.search}><i className="fa fa-search"></i></button>
+                </div>
+            </div>
+          </div>
         </div>
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
@@ -350,6 +361,7 @@ export default class Data extends Component {
             </div>
           </div>
         </div>
+        <div className="table-responsive">
         <table id="data" className="table table-striped table-bordered">
         <thead>
             <tr>
@@ -367,6 +379,8 @@ export default class Data extends Component {
         </tbody>
 
     </table>
+        </div>
+      </div>
       </div>
   )
 }

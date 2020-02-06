@@ -8,14 +8,13 @@ table {
 }
 
 .data-title {
-    margin-left: 45%;
-    margin-bottom: 40px;
     color: white;
     font-size: larger;
 }
 .search {
-    margin-left: 36%;
+    // margin-left: 36%;
     margin-bottom: 20px;
+    text-align: center;
 }
 .buttonSearch{
     margin-left: 2%;
@@ -24,19 +23,35 @@ table {
 .successMessage{
     color: green;
 }
-.addbtn {
-    margin-left: 45%;
-    margin-bottom: 20px;
-}
 .table {
     margin-right: 10%;
     margin-left: 10%;
     // margin-bottom: 10%;
     width: 80%;
 }
-.inputSearch {
-    margin-left: 8%;
+.searchfield {
+    width: 100px !important;
 }
 .deletebtn{
     margin-left: 7px;
 }
+// .has-search .form-control {
+//     padding-left: 2.375rem;
+// }
+.head-group {
+    width: 50%;
+    margin: 50px auto;
+}
+
+.center-div
+{
+  margin: 0 auto;
+  max-width: 700px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+// .searchfield {
+//     width: 50% !important;
+// }
