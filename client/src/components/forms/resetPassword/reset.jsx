@@ -73,7 +73,7 @@ class resetForm extends React.Component{
                     </select>
                     <input className="un" type="password" align="center" placeholder="Security Answer" value={this.state.securityAnswer} onChange={ this.onChange } name="securityAnswer" required></input>
                     <input className="pass" type="password" align="center" placeholder="New Password" value={this.state.newPassword} onChange={ this.onChange } name="newPassword" required></input>
-                    <button type="submit" className="submit" align="center">Signup</button>
+                    <button type="submit" className="submit" align="center">Reset</button>
                     </form>
                     </div>
             </div>
