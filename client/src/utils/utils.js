@@ -44,10 +44,12 @@ class Utils {
       if (!token){
         return false;
       }
-      jwt.verify(token, process.env.secret, function(err, decoded) {
+      jwt.verify(token, 'babadee', (err, decoded) => {
         if (err){
+          console.log("eeeee", err)
           return false
         }
+        return true
       })
     }
 }

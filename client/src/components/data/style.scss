@@ -2,6 +2,9 @@ table {
     // width: 100%;
     background-color: white !important;
 }
+tbody + thead{
+    display: none;
+  }
 
 .spacing {
     margin: 50px;
@@ -12,7 +15,6 @@ table {
     font-size: larger;
 }
 .search {
-    // margin-left: 36%;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -26,7 +28,6 @@ table {
 .table {
     margin-right: 10%;
     margin-left: 10%;
-    // margin-bottom: 10%;
     width: 80%;
 }
 .searchfield {
@@ -35,9 +36,6 @@ table {
 .deletebtn{
     margin-left: 7px;
 }
-// .has-search .form-control {
-//     padding-left: 2.375rem;
-// }
 .head-group {
     width: 50%;
     margin: 50px auto;
@@ -51,7 +49,8 @@ table {
   background-color: #ccc;
   border-radius: 3px;
 }
-
-// .searchfield {
-//     width: 50% !important;
-// }
+.dataTables_length {
+    text-align: center;
+    width: 203%;
+    color: white;
+}

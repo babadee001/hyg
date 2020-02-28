@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MDBDataTable, MDBContainer } from 'mdbreact';
 import toastr from 'toastr';
 import jwt from 'jsonwebtoken';
 import './style.scss';
@@ -26,11 +27,11 @@ export default class Data extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.postData = this.onSubmit.bind(this);
-    this.renderTableData = this.renderTableData.bind(this);
     this.deleteData = this.deleteData.bind(this);
     this.search = this.search.bind(this);
     this.setEditId = this.setEditId.bind(this);
     this.clearFields = this.clearFields.bind(this);
+    this.renderTable = this.renderTable.bind(this);
   }
 
   componentDidMount(){
@@ -46,6 +47,25 @@ export default class Data extends Component {
       }
     })
   }
+ 
+  // paginate(num){
+  //   const currentData = this.state.filteredData && this.state.filteredData.length ? this.state.filteredData : this.state.allData;
+  //   const checkValue = (val) => {
+  //     if (val < currentData.length){
+  //     currentValue = num
+  //     }
+  //  }
+    
+  //   const currentValue = num > currentData.length ? currentData.length : num
+  //   const filtered = []
+  //   for (let i=0; i<num; i++){
+  //     filtered[i] = currentData[i]
+  //   }
+  //   // this.setState({
+  //   //   filteredData: filtered
+  //   // })
+  // }
+
 
   setEditId(id, firstData, secondData, latitude, longitude){
     this.setState({
@@ -79,27 +99,75 @@ export default class Data extends Component {
     this.setState({ filteredData });
 };
 
-  renderTableData() {
-    const currentData = this.state.filteredData && this.state.filteredData.length ? this.state.filteredData : this.state.allData;
-    return currentData.map((data, index) => {
-       const { id, username, firstdata, seconddata, latitude,longitude } = data 
-       return (
-          <tr key={id}>
-             <td>{id}</td>
-             <td>{username}</td>
-             <td>{firstdata}</td>
-             <td>{seconddata}</td>
-             <td>{latitude}</td>
-             <td>{longitude}</td>
-             <td>
-             <div className="btn-group group">
-              <button align="center" onFocus={() => this.setEditId(id, firstdata, seconddata, latitude, longitude)} className="btn-success" data-toggle="modal" data-target="#editModal">Edit</button>
-              <button align="center" onClick={() => this.deleteData(id)} className="btn-danger deletebtn">Delete</button>
-            </div>
-             </td>
-          </tr>
-       )
-    })
+
+ renderTable(){
+    const currentData = this.state.filteredData.length ? this.state.filteredData : this.state.allData;
+    for (let i=0; i<currentData.length; i++){
+      const { id, firstdata, seconddata, latitude,longitude } = currentData[i] 
+      currentData[i]['actions'] = <div className="btn-group group">
+      <button align="center" onFocus={() => this.setEditId(id, firstdata, seconddata, latitude, longitude)} className="btn-success" data-toggle="modal" data-target="#editModal">Edit</button>
+      <button align="center" onClick={() => this.deleteData(id)} className="btn-danger deletebtn">Delete</button>
+    </div>
+    }
+    const data = {
+      columns: [
+        {
+          label: 'Id',
+          field: 'id',
+          sort: 'asc',
+          width: 150
+        },
+        {
+          label: 'Username',
+          field: 'username',
+          sort: 'asc',
+          width: 270
+        },
+        {
+          label: 'Data1',
+          field: 'firstdata',
+          sort: 'asc',
+          width: 200
+        },
+        {
+          label: 'Data2',
+          field: 'seconddata',
+          sort: 'asc',
+          width: 100
+        },
+        {
+          label: 'Longitude',
+          field: 'longitude',
+          sort: 'asc',
+          width: 150
+        },
+        {
+          label: 'Latitude',
+          field: 'latitude',
+          sort: 'asc',
+          width: 100
+        },
+        {
+          label: 'Actions',
+          field: 'actions',
+          sort: 'asc',
+          width: 150
+        },
+      ],
+      rows: currentData
+    };
+    return (
+      <MDBContainer>
+        <MDBDataTable
+          responsive
+          striped
+          bordered
+          hover
+          searching= {false}
+          data={data}
+        />
+      </MDBContainer>
+    )
  }
 
  deleteData(id) {
@@ -179,58 +247,57 @@ export default class Data extends Component {
 
   onhandleEdit = async (event, id) => {
     event.preventDefault();
-    utils.verifyToken(localStorage.getItem('token'))
-    .then((verified) =>{
-      if (!verified){
-        this.setState({errorMessage: "Please Login"})
-      }
-      else{
-        const { firstData, secondData, lat, long } = this.state
-        const latitude = Number(lat)
-        const longitude = Number(long)
-        const response = fetch(`/data/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            firstData, secondData, latitude, longitude
-          }),
-        }).catch((error) => {
-          if (error.response) {
-              this.setState({
-                  errorMessage: error.response.data.message
-              })
-          } else {
-            throw error;
-          }
-        });
-        const jsonServerResponse = response.json()
-                .then(jsonData => jsonData);
-        if (jsonServerResponse.status === 201) {
-          utils.getData()
-            .then((jsonServerResponse) => {
-              // eslint-disable-next-line
-              if (jsonServerResponse.status == 200) {
-                this.setState({
-                  allData: jsonServerResponse.data
-                })
-              } else {
-                toastr.info('Could not load data. Connection may be slow')
-              }
+    const verified = utils.verifyToken(localStorage.getItem('token'))
+    if (!verified){
+      this.setState({errorMessage: "Please Login"})
+    }
+    else {
+      const { firstData, secondData, lat, long } = this.state
+      const latitude = Number(lat)
+      const longitude = Number(long)
+      const response = await fetch(`/data/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstData, secondData, latitude, longitude
+        }),
+      }).catch((error) => {
+        if (error.response) {
+            this.setState({
+                errorMessage: error.response.data.message
             })
-          toastr.info(jsonServerResponse.message)
-          this.setState({
-            errorMessage: '',
-            successMessage: 'Data edited successfully. Close the form or edit again'
-          })
         } else {
-          this.setState({
-              errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
-          })
+          throw error;
         }
+      });
+      const jsonServerResponse = await response.json()
+      .then(jsonData => jsonData);
+      console.log(jsonServerResponse)
+      if (jsonServerResponse.status === 201) {
+        utils.getData()
+          .then((jsonServerResponse) => {
+            // eslint-disable-next-line
+            if (jsonServerResponse.status == 200) {
+              this.setState({
+                allData: jsonServerResponse.data
+              })
+            } else {
+              toastr.info('Could not load data. Connection may be slow')
+            }
+          })
+        toastr.info(jsonServerResponse.message.message || jsonServerResponse.message)
+        this.setState({
+          errorMessage: '',
+          successMessage: 'Data edited successfully. Close the form or edit again'
+        })
+      } else {
+        this.setState({
+            errorMessage: jsonServerResponse.message.message || jsonServerResponse.message
+        })
       }
-    })
+    }
   }
 
   render() {
@@ -239,31 +306,10 @@ export default class Data extends Component {
     if (allData.length == 0) {
       return (
         <div>
+          <p>Loading</p>
           <div className="spinner-grow text-primary" role="status">
           <span className="sr-only">Loading...</span>
         </div>
-        <div className="spinner-grow text-secondary" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-success" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-danger" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-warning" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-info" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-light" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="spinner-grow text-dark" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-
         </div>
       )
     }
@@ -286,6 +332,9 @@ export default class Data extends Component {
                   </div>
               </div>
             </div>
+          </div>
+          <div className="container">
+            {this.renderTable()}
           </div>
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -362,25 +411,6 @@ export default class Data extends Component {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="table-responsive">
-          <table id="data" className="table table-striped table-bordered">
-          <thead>
-              <tr>
-                  <th>id</th>
-                  <th>Username</th>
-                  <th>Data1</th>
-                  <th>Data2</th>
-                  <th>Longitude</th>
-                  <th>Latitude</th>
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-                {this.renderTableData()}
-          </tbody>
-  
-      </table>
           </div>
         </div>
         </div>
