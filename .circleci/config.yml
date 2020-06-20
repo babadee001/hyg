@@ -63,6 +63,12 @@ jobs:
       - run:
           name: check ssh keys
           command: ssh-add -l
+      - run: # Install the AWS CLI if it is not already included in the docker image
+          name: Install awscli 
+          command: sudo apt-get -y -qq install awscli
+      # - run:
+      #     name: Add host to ssh port
+      #     command: aws ec2 authorize-security-group-ingress --region eu-west-2 --group-id sg-0a4b13c43813deb62 --ip-permissions "[{\"IpProtocol\": \"tcp\", \"FromPort\": 22, \"ToPort\": 22, \"IpRanges\": [{\"CidrIp\": \"${public_ip_address}/32\"}]}]"
       - run:
           name: Get working directory
           command: pwd
