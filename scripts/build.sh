@@ -8,7 +8,7 @@ ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
   sudo chown -R $USER /usr/lib/node_modules
   curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
   sudo apt-get install -y nodejs
-  npm install pm2 -g
+  sudo npm install pm2 -g
   if [ -d hyg ]; then
     cd hyg
     git pull
