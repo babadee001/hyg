@@ -43,31 +43,35 @@ jobs:
           name: Run the test
           command: npm test
 
-      - run: # Install the AWS CLI if it is not already included in the docker image
-          name: Install awscli 
-          command: sudo apt-get -y -qq install awscli
-      - run: # Deploy to S3 using the sync command
-          name: Deploy to S3
-          command: aws s3 sync client/build/ s3://hyg-test
-
   deploy:
     docker:
       - image: buildpack-deps:trusty
     steps:
       - checkout
+      - run: # Install the AWS CLI if it is not already included in the docker image
+          name: Install awscli 
+          command: sudo apt-get -y -qq install awscli
+      - add_ssh_keys:
+          fingerprints:
+            - "75:a0:e1:53:07:b9:ae:0b:77:2c:06:27:bc:6b:e0:21"
       - run:
-          name: Deploy Master to Heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          name: check ssh keys
+          command: ssh-add -l
+      - run: # Deploy to S3 using the sync command
+          name: Deploy to S3
+          command: aws s3 sync client/build/ s3://hyg-test
+      - run:
+          name: Deploy Changes To EC2
+          command: ../scripts/build.sh
 workflows:
   version: 2
   # The build and deploy workflow
   build_and_deploy:
     jobs:
       - build
-      # - deploy:
-      #     requires:
-      #       - build
+      - deploy:
+          requires:
+            - build
       #     filters:
       #         branches:
       #           only:
