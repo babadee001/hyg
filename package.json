@@ -9,7 +9,9 @@
     "client": "cd client && npm start",
     "start-dev": "concurrently --kill-others-on-fail \"npm run start-server\" \"npm run client\"",
     "create-tables": "babel-node ./database/tables.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "ci-build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "test": "jest"
   },
   "author": "bbd",
   "license": "ISC",

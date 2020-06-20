@@ -1,13 +1,6 @@
-import { shallow } from 'enzyme'
-import React from 'react'
-import renderer from 'react-test-renderer'
-
-import App from '../pages/nonsense.js'
 
 describe('With Enzyme', () => {
-  it('App shows "Hello world!"', () => {
-    const app = shallow(<App />)
-
-    expect(app.find('p').text()).toEqual('Hello World!')
+  it('Runs sample test', () => {
+    expect(true).toEqual(true)
   })
 })

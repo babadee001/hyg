@@ -26,9 +26,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: yarn install
-
-      - run: yarn build
+      - run: 
+          name: Build the app
+          command: npm run ci-build
 
       - save_cache:
           paths:
@@ -38,6 +38,13 @@ jobs:
       - run:
           name: Run the test
           command: npm test
+
+      - run: # Install the AWS CLI if it is not already included in the docker image
+          name: Install awscli 
+          command: sudo pip install awscli
+      - run: # Deploy to S3 using the sync command
+          name: Deploy to S3
+          command: aws s3 sync client/build/ s3://hyg-test
 
   deploy:
     docker:
