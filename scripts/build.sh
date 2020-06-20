@@ -6,7 +6,7 @@ aws ec2 authorize-security-group-ingress --region eu-west-2 --group-id sg-0a4b13
 ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
   touch circle.sh
   sudo chmod +x circle.sh
-  echo '#!/bin/bash
+  echo "#!/bin/bash
     if [ -d hyg ]; then
       cd hyg
       git pull
@@ -17,9 +17,9 @@ ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
       cd hyg
       pwd
       npm install
-    fi" 
+    fi
     pm2 start npm --start > circle.sh
-    ./circle.sh'
+    ./circle.sh"
 ENDSSH
 # echo "if [ -d hyg ]; then
 #         cd hyg
