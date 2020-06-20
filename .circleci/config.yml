@@ -45,7 +45,7 @@ jobs:
 
   deploy:
     docker:
-      - image: buildpack-deps:trusty
+      - image: circleci/node:12.0.0
     steps:
       - checkout
       - run: # Install the AWS CLI if it is not already included in the docker image
@@ -60,9 +60,9 @@ jobs:
       - run: # Deploy to S3 using the sync command
           name: Deploy to S3
           command: aws s3 sync client/build/ s3://hyg-test
-      - run:
-          name: Deploy Changes To EC2
-          command: ../scripts/build.sh
+      # - run:
+      #     name: Deploy Changes To EC2
+      #     command: ../scripts/build.sh
 workflows:
   version: 2
   # The build and deploy workflow
