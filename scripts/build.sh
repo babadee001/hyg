@@ -8,9 +8,11 @@ ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
   if [ -d hyg ]; then
     cd hyg
     git pull
+    npm install
   else
     git clone ssh://git@github.com/babadee001/hyg.git -b static
     cd hyg
+    npm install
   fi
   pm2 start npm -- start
 ENDSSH
