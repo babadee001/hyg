@@ -26,6 +26,10 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          name: Install packages
+          command: npm install
+
       - run: 
           name: Build the app
           command: npm run ci-build
