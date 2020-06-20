@@ -18,7 +18,7 @@ ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
       pwd
       npm install
     fi" 
-    pm2 start npm --start> circle.sh
+    pm2 start npm --start > circle.sh
     ./circle.sh
 ENDSSH
 # echo "if [ -d hyg ]; then
