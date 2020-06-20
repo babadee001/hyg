@@ -64,11 +64,11 @@ jobs:
           name: check ssh keys
           command: ssh-add -l
       - run:
-        name: Get working directory
-        command: pwd
+          name: Get working directory
+          command: pwd
       - run:
           name: Deploy Changes To EC2
-          command: ../scripts/build.sh
+          command: ~/repo/scripts/build.sh
 workflows:
   version: 2
   # The build and deploy workflow
