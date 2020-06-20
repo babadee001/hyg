@@ -316,7 +316,7 @@ export default class Data extends Component {
       return (
         <div>
           <Navbar link1="/" value1="Logout" />
-          <div className="container">
+          <div className="container container-fluid">
           <div className="head-group">
             <div className="spacing"></div>
             <div className="data-title"><p className="text-center">Data Table</p></div>
