@@ -20,6 +20,7 @@ ssh -t ubuntu@3.8.150.78 <<-'ENDSSH'
     pwd
     npm install
   fi
+  pm2 kill
   pm2 start npm -- start
 ENDSSH
 aws ec2 revoke-security-group-ingress --region eu-west-2 --group-id sg-0a4b13c43813deb62 --protocol tcp --port 22 --cidr "${public_ip_address}/32"
