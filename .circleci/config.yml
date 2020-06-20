@@ -52,6 +52,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:12.0.0
+    working_directory: ~/repo
     steps:
       - checkout
       - add_ssh_keys:
@@ -61,8 +62,11 @@ jobs:
           name: check ssh keys
           command: ssh-add -l
       - run:
+        name: Get working directory
+        command: pwd
+      - run:
           name: Deploy Changes To EC2
-          command: ../scripts/build.sh
+          command: ~/scripts/build.sh
 workflows:
   version: 2
   # The build and deploy workflow
