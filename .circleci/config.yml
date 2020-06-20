@@ -45,7 +45,7 @@ jobs:
 
       - run: # Install the AWS CLI if it is not already included in the docker image
           name: Install awscli 
-          command: sudo pip install awscli
+          command: sudo apt-get -y -qq install awscli
       - run: # Deploy to S3 using the sync command
           name: Deploy to S3
           command: aws s3 sync client/build/ s3://hyg-test
