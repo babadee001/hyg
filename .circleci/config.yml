@@ -74,7 +74,7 @@ jobs:
           command: pwd
       - run:
           name: Deploy Changes To EC2
-          command: ~/repo/scripts/build.sh
+          command: ~/repo/scripts/test.sh
 workflows:
   version: 2
   # The build and deploy workflow
