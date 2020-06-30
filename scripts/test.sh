@@ -1,1 +1,1 @@
-ssh -t ubuntu@18.132.249.223 -v
+ssh -o StrictHostKeyChecking=no ubuntu@18.132.249.223 -v
