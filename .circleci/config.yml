@@ -57,9 +57,9 @@ jobs:
 
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "75:a0:e1:53:07:b9:ae:0b:77:2c:06:27:bc:6b:e0:21"
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "75:a0:e1:53:07:b9:ae:0b:77:2c:06:27:bc:6b:e0:21"
       - run:
           name: check ssh keys
           command: ssh-add -l
